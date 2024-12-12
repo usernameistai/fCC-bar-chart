@@ -42,7 +42,7 @@ let generateSc = () => {
              .range([pad, w - pad]);
 
   let datesArr = values.map(item => new Date(item[0]));
-  // console.log(datesArr, "datesArr")
+  console.log(datesArr, "datesArr")
 
   xAxisScale = d3.scaleTime()
                  .domain([d3.min(datesArr), d3.max(datesArr)]) //smallest and highest values in dates array
@@ -74,13 +74,15 @@ let drawBars = () => {
      .attr('height', item => heightSc(item[1]))
      .attr('x', (item, i) => xScale(i)) // puts values into graph albeit upside down
      .attr('y', item => (h - pad) - heightSc(item[1])) // puts data the right way round and in right place
-     .on('mouseover', item => {
+     .on('mouseover', (event, item) => {
         // this.set('fill', 'white')
         tooltip.transition()
                .style('visibility', 'visible');
         tooltip.text(item[0] + ' $' + item[1] + ' Billion');
         document.querySelector('#tooltip').setAttribute('data-date', item[0]);
         // document.querySelector('.bar').style('background', 'white');
+        tooltip.style('left', (event.pageX + 10) + 'px')
+               .style('top', (event.pageY - 28) + 'px');
       })
      .on('mouseleave', item => tooltip.transition().style('visibility', 'hidden'))
 }
